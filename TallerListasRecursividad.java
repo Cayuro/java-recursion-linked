@@ -1,6 +1,7 @@
 public class TallerListasRecursividad {
 
     public static void main(String[] args) {
+        // Punto de entrada para probar, de forma simple, las estructuras y algoritmos.
         // Pruebas rapidas del Bloque 1 (simple y doble)
         ListaSimpleBasica ls = new ListaSimpleBasica();
         ls.insertarInicio(10);
@@ -38,16 +39,20 @@ public class TallerListasRecursividad {
 
 
 class NodoSimple {
+    // Valor almacenado en el nodo.
     int dato;
+    // Referencia al siguiente nodo en la lista.
     NodoSimple sig;
 
     NodoSimple(int dato) {
+        // Inicializa el nodo con su dato y sin enlace siguiente.
         this.dato = dato;
         this.sig = null;
     }
 }
 
 class ListaSimpleBasica {
+    // Primer nodo de la lista (si es null, la lista esta vacia).
     NodoSimple cabeza;
 
     // 1) Insertar Inicio (Simple)
@@ -111,9 +116,6 @@ class ListaSimpleBasica {
                 encontrado = true;
                 // Error comun de principiante: encontrar y aun asi seguir recorriendo
                 // No afecta el resultado final, solo hace trabajo de mas.
-            } else {
-                // Este else es redundante, lo dejo asi por estilo basico
-                encontrado = encontrado;
             }
             nodoActual = nodoActual.sig;
         }
@@ -160,11 +162,15 @@ class ListaSimpleBasica {
 // =========================
 
 class NodoDoble {
+    // Dato almacenado.
     int dato;
+    // Enlace al siguiente nodo.
     NodoDoble sig;
+    // Enlace al nodo anterior.
     NodoDoble ant;
 
     NodoDoble(int dato) {
+        // Crea un nodo aislado (sin vecinos).
         this.dato = dato;
         this.sig = null;
         this.ant = null;
@@ -172,6 +178,7 @@ class NodoDoble {
 }
 
 class ListaDobleBasica {
+    // Inicio de la lista doble.
     NodoDoble cabeza;
 
     // 9) Insertar Inicio (Doble)
@@ -278,11 +285,15 @@ class ListaDobleBasica {
 // =========================
 
 class NodoTexto {
+    // Texto almacenado (URL, nombre de archivo, accion, etc.).
     String dato;
+    // Siguiente nodo.
     NodoTexto sig;
+    // Nodo anterior (se usa en estructuras dobles).
     NodoTexto ant;
 
     NodoTexto(String dato) {
+        // Inicializa el nodo de texto sin conexiones.
         this.dato = dato;
         this.sig = null;
         this.ant = null;
@@ -291,7 +302,9 @@ class NodoTexto {
 
 // 1) Historial de Navegacion con limite
 class HistorialNavegacion {
+    // Sitio mas reciente visitado.
     NodoTexto cabeza;
+    // Maximo de paginas que se guardan en historial.
     int limite;
 
     HistorialNavegacion(int limite) {
@@ -300,6 +313,7 @@ class HistorialNavegacion {
     }
 
     public void visitar(String url) {
+        // Inserta al inicio porque representa la visita mas reciente.
         NodoTexto nuevoNodo = new NodoTexto(url);
         nuevoNodo.sig = cabeza;
         if (cabeza != null) {
@@ -315,6 +329,7 @@ class HistorialNavegacion {
     }
 
     private int contar() {
+        // Recorre todo el historial para contar elementos.
         int c = 0;
         NodoTexto aux = cabeza;
         while (aux != null) {
@@ -325,6 +340,7 @@ class HistorialNavegacion {
     }
 
     private void eliminarUltimo() {
+        // Elimina la visita mas antigua (cola de la lista).
         if (cabeza == null) {
             return;
         }
@@ -347,9 +363,11 @@ class HistorialNavegacion {
 
 // 2) Cola de impresion con prioridad
 class ColaImpresionPrioridad {
+    // Frente de la cola de impresion.
     NodoTexto frente;
 
     public void insertarDocumento(String nombre, boolean urgente) {
+        // Urgente entra al frente; normal se encola al final.
         NodoTexto nuevoNodo = new NodoTexto(nombre);
 
         if (frente == null) {
@@ -369,6 +387,7 @@ class ColaImpresionPrioridad {
     }
 
     public String imprimirSiguiente() {
+        // Atiende y retira el documento del frente.
         if (frente == null) {
             return null;
         }
@@ -381,15 +400,18 @@ class ColaImpresionPrioridad {
 
 // 3) Sistema de Undo
 class SistemaUndo {
+    // Tope de la pila de acciones.
     NodoTexto tope;
 
     public void guardarAccion(String accion) {
+        // Push: agrega accion al inicio.
         NodoTexto nuevoNodo = new NodoTexto(accion);
         nuevoNodo.sig = tope;
         tope = nuevoNodo;
     }
 
     public String undo() {
+        // Pop: devuelve la ultima accion y la retira.
         if (tope == null) {
             return null;
         }
@@ -402,9 +424,11 @@ class SistemaUndo {
 
 // 4) Detector de correos duplicados
 class DetectorCorreosDuplicados {
+    // Lista de IDs de correos ya vistos.
     NodoTexto cabeza;
 
     public boolean insertarSiNoExiste(String idCorreo) {
+        // Busca si ya existe para evitar duplicados.
         NodoTexto aux = cabeza;
 
         while (aux != null) {
@@ -423,9 +447,11 @@ class DetectorCorreosDuplicados {
 
 // 5) Inversion de playlist (reverse)
 class PlaylistSimple {
+    // Primera cancion de la playlist.
     NodoTexto cabeza;
 
     public void agregarCancion(String nombre) {
+        // Inserta al final para conservar orden de reproduccion.
         NodoTexto nuevoNodo = new NodoTexto(nombre);
 
         if (cabeza == null) {
@@ -440,6 +466,7 @@ class PlaylistSimple {
     }
 
     public void invertir() {
+        // Reverse iterativo de lista simple con tres punteros.
         NodoTexto anterior = null;
         NodoTexto actual = cabeza;
         NodoTexto siguiente;
@@ -457,10 +484,13 @@ class PlaylistSimple {
 
 // 6) Navegador de galeria de fotos
 class GaleriaFotos {
+    // Inicio de la lista de fotos.
     NodoTexto inicio;
+    // Puntero a la foto actualmente mostrada.
     NodoTexto fotoActual;
 
     public void agregarFoto(String nombreFoto) {
+        // Agrega la foto al final y enlaza en doble sentido.
         NodoTexto nuevoNodo = new NodoTexto(nombreFoto);
 
         if (inicio == null) {
@@ -477,6 +507,7 @@ class GaleriaFotos {
     }
 
     public String siguiente() {
+        // Avanza si hay siguiente, si no, se queda en la actual.
         if (fotoActual == null) {
             return null;
         }
@@ -489,6 +520,7 @@ class GaleriaFotos {
     }
 
     public String anterior() {
+        // Retrocede si hay anterior, si no, se queda en la actual.
         if (fotoActual == null) {
             return null;
         }
@@ -503,9 +535,11 @@ class GaleriaFotos {
 
 // 7) Reproductor de musica circular
 class ReproductorCircular {
+    // Cabeza de lista circular de canciones.
     NodoTexto cabeza;
 
     public void agregar(String cancion) {
+        // Inserta al final y mantiene la circularidad al apuntar a cabeza.
         NodoTexto nuevoNodo = new NodoTexto(cancion);
 
         if (cabeza == null) {
@@ -522,6 +556,7 @@ class ReproductorCircular {
     }
 
     public String siguienteCancion(String actual) {
+        // Busca la cancion actual y retorna la siguiente en el ciclo.
         if (cabeza == null) {
             return null;
         }
@@ -540,9 +575,11 @@ class ReproductorCircular {
 
 // 8) Editor de texto (cursor)
 class EditorTextoCursor {
+    // Representa el texto como lista de caracteres.
     NodoChar cabeza;
 
     public void insertarDespuesDePos(int pos, char letra) {
+        // Inserta despues de una posicion; si no existe, agrega al final.
         NodoChar nuevoNodo = new NodoChar(letra);
 
         if (pos < 0 || cabeza == null) {
@@ -573,10 +610,13 @@ class EditorTextoCursor {
 }
 
 class NodoChar {
+    // Caracter almacenado.
     char dato;
+    // Siguiente caracter.
     NodoChar sig;
 
     NodoChar(char dato) {
+        // Crea un nodo de caracter suelto.
         this.dato = dato;
         this.sig = null;
     }
@@ -585,6 +625,7 @@ class NodoChar {
 // 9) Buscador de punto medio (tortuga y liebre)
 class BuscadorPuntoMedio {
     public NodoSimple obtenerMedio(NodoSimple cabeza) {
+        // Estrategia tortuga-liebre: uno avanza 1 y otro 2.
         if (cabeza == null) {
             return null;
         }
@@ -603,9 +644,11 @@ class BuscadorPuntoMedio {
 
 // 10) Gestion de turnos bancarios
 class TurnosBancarios {
+    // Frente de la fila de clientes.
     NodoTexto frente;
 
     public void agregarCliente(String nombre) {
+        // Encola cliente al final de la fila.
         NodoTexto nuevoNodo = new NodoTexto(nombre);
 
         if (frente == null) {
@@ -621,6 +664,7 @@ class TurnosBancarios {
     }
 
     public boolean retirarCliente(String nombre) {
+        // Elimina por nombre ajustando enlaces anterior/siguiente.
         NodoTexto aux = frente;
 
         while (aux != null) {
@@ -654,14 +698,17 @@ class RecursividadBasica {
 
     // 1) Factorial
     public static long factorial(int n) {
+        // Caso base: 0! y 1! valen 1.
         if (n <= 1) {
             return 1;
         }
+        // Caso recursivo: n! = n * (n-1)!
         return n * factorial(n - 1);
     }
 
     // 2) Suma de digitos
     public static int sumaDigitos(int n) {
+        // Trabaja con valor absoluto para soportar negativos.
         n = Math.abs(n);
         if (n < 10) {
             return n;
@@ -671,6 +718,7 @@ class RecursividadBasica {
 
     // 3) Potencia a^b
     public static long potencia(int a, int b) {
+        // Caso base: todo numero elevado a 0 es 1.
         if (b == 0) {
             return 1;
         }
@@ -679,6 +727,7 @@ class RecursividadBasica {
 
     // 4) Invertir cadena
     public static String invertirCadena(String txt) {
+        // Caso base: null, vacia o un caracter ya estan invertidos.
         if (txt == null || txt.length() <= 1) {
             return txt;
         }
@@ -687,6 +736,7 @@ class RecursividadBasica {
 
     // 5) Fibonacci n-esimo
     public static int fibonacci(int n) {
+        // Casos base de la serie.
         if (n <= 1) {
             return n;
         }
@@ -695,6 +745,7 @@ class RecursividadBasica {
 
     // 6) Conteo regresivo
     public static void conteoRegresivo(int n) {
+        // Se detiene al pasar por debajo de 0.
         if (n < 0) {
             return;
         }
@@ -704,6 +755,7 @@ class RecursividadBasica {
 
     // 7) Suma de arreglo
     public static int sumaArreglo(int[] vec, int i) {
+        // Si no hay arreglo o se llego al final, suma 0.
         if (vec == null || i >= vec.length) {
             return 0;
         }
@@ -712,6 +764,7 @@ class RecursividadBasica {
 
     // 8) Palindromo
     public static boolean esPalindromo(String palabra) {
+        // Se compara en minuscula para ignorar mayusculas.
         if (palabra == null) {
             return false;
         }
@@ -719,6 +772,7 @@ class RecursividadBasica {
     }
 
     private static boolean revisarPalabra(String txt, int ini, int fin) {
+        // Si los indices se cruzan, todo coincidio.
         if (ini >= fin) {
             return true;
         }
@@ -732,6 +786,7 @@ class RecursividadBasica {
 
     // 9) Decimal a binario
     public static String decimalABinario(int n) {
+        // Caso base para 0 y 1.
         if (n < 2) {
             return String.valueOf(n);
         }
@@ -740,6 +795,7 @@ class RecursividadBasica {
 
     // 10) MCD (Euclides)
     public static int mcd(int a, int b) {
+        // Normaliza signos para evitar efectos de negativos.
         a = Math.abs(a);
         b = Math.abs(b);
 
@@ -759,6 +815,7 @@ class DesafiosListas {
 
     // 1) Fusion de listas ordenadas sin crear nodos nuevos
     public NodoSimple fusionarOrdenadas(NodoSimple a, NodoSimple b) {
+        // Si alguna lista es vacia, la otra ya es el resultado.
         if (a == null) {
             return b;
         }
@@ -777,6 +834,7 @@ class DesafiosListas {
 
         NodoSimple cola = inicio;
 
+        // Va uniendo el menor nodo disponible de cada lista.
         while (a != null && b != null) {
             if (a.dato <= b.dato) {
                 cola.sig = a;
@@ -799,6 +857,7 @@ class DesafiosListas {
 
     // 2) Deteccion de ciclos (Floyd)
     public boolean tieneCiclo(NodoSimple cabeza) {
+        // Si lento y rapido se encuentran, hay ciclo.
         NodoSimple lento = cabeza;
         NodoSimple rapido = cabeza;
 
@@ -816,6 +875,7 @@ class DesafiosListas {
 
     // 3) Eliminar n-esimo desde el final en un recorrido
     public NodoSimple eliminarDesdeFinal(NodoSimple cabeza, int n) {
+        // Nodo fantasma para simplificar eliminacion del primer nodo real.
         NodoSimple fantasma = new NodoSimple(0);
         fantasma.sig = cabeza;
 
@@ -846,6 +906,7 @@ class DesafiosListas {
 
     // 4) Insertion sort sobre lista enlazada
     public NodoSimple insertionSortLista(NodoSimple cabeza) {
+        // Construye una nueva lista ordenada reinsertando cada nodo.
         NodoSimple ordenada = null;
         NodoSimple aux = cabeza;
 
@@ -859,6 +920,7 @@ class DesafiosListas {
     }
 
     private NodoSimple insertarEnOrden(NodoSimple inicio, NodoSimple nuevoNodo) {
+        // Inserta el nodo en su posicion manteniendo orden ascendente.
         nuevoNodo.sig = null;
 
         if (inicio == null || nuevoNodo.dato < inicio.dato) {
@@ -878,6 +940,7 @@ class DesafiosListas {
 
     // 5) Intercambio de nodos en parejas
     public NodoSimple intercambiarParejas(NodoSimple cabeza) {
+        // Intercambia enlaces de a pares: (a,b) pasa a (b,a).
         NodoSimple fantasma = new NodoSimple(0);
         fantasma.sig = cabeza;
         NodoSimple puntero = fantasma;
@@ -898,11 +961,13 @@ class DesafiosListas {
 
     // 6) Lista doble circular multicanal
     public ListaDobleCircularMulticanal crearMulticanal() {
+        // Fabrica una estructura multicanal vacia.
         return new ListaDobleCircularMulticanal();
     }
 
     // 7) Particion de lista alrededor de x
     public NodoSimple particionar(NodoSimple cabeza, int x) {
+        // Separa en dos listas: menores y mayores/iguales a x.
         NodoSimple menoresIni = null;
         NodoSimple menoresFin = null;
         NodoSimple mayoresIni = null;
@@ -945,6 +1010,7 @@ class DesafiosListas {
 
     // 8) Suma de listas que representan numeros
     public NodoSimple sumarListasNumeros(NodoSimple a, NodoSimple b) {
+        // Suma digito a digito con acarreo, como suma manual.
         NodoSimple cabezaRes = null;
         NodoSimple colaRes = null;
         int acarreo = 0;
@@ -982,6 +1048,7 @@ class DesafiosListas {
 
     // 9) Clonacion con puntero random
     public NodoRandom clonarConRandom(NodoRandom cabeza) {
+        // Tecnica en 3 pasos: intercalar copias, copiar random, separar listas.
         if (cabeza == null) {
             return null;
         }
@@ -1021,6 +1088,7 @@ class DesafiosListas {
 
     // 10) Flattening de lista con hijos
     public NodoMulti flatten(NodoMulti cabeza) {
+        // Aplana recursivamente cada sublista child dentro de next.
         if (cabeza == null) {
             return null;
         }
@@ -1049,9 +1117,12 @@ class DesafiosListas {
 }
 
 class NodoCanal {
+    // Nombre identificador del canal.
     String nombreCanal;
+    // Enlaces para lista doble circular de canales.
     NodoCanal sig;
     NodoCanal ant;
+    // Sublista de datos asociados al canal.
     NodoTexto subLista;
 
     NodoCanal(String nombreCanal) {
@@ -1063,9 +1134,11 @@ class NodoCanal {
 }
 
 class ListaDobleCircularMulticanal {
+    // Cabeza de la lista circular de canales.
     NodoCanal cabeza;
 
     public void agregarCanal(String nombre) {
+        // Inserta canal al final manteniendo enlaces circulares.
         NodoCanal nuevoNodo = new NodoCanal(nombre);
 
         if (cabeza == null) {
@@ -1083,6 +1156,7 @@ class ListaDobleCircularMulticanal {
     }
 
     public void agregarDatoACanal(String canal, String dato) {
+        // Busca el canal y agrega su dato en la sublista de ese canal.
         NodoCanal n = buscarCanal(canal);
 
         if (n == null) {
@@ -1102,6 +1176,7 @@ class ListaDobleCircularMulticanal {
     }
 
     private NodoCanal buscarCanal(String nombre) {
+        // Recorre circularmente hasta volver a la cabeza.
         if (cabeza == null) {
             return null;
         }
@@ -1119,8 +1194,11 @@ class ListaDobleCircularMulticanal {
 }
 
 class NodoRandom {
+    // Dato del nodo.
     int dato;
+    // Siguiente nodo lineal.
     NodoRandom sig;
+    // Referencia aleatoria a cualquier nodo.
     NodoRandom random;
 
     NodoRandom(int dato) {
@@ -1131,8 +1209,11 @@ class NodoRandom {
 }
 
 class NodoMulti {
+    // Dato principal.
     int dato;
+    // Siguiente nodo en el mismo nivel.
     NodoMulti next;
+    // Inicio de sublista hija.
     NodoMulti child;
 
     NodoMulti(int dato) {
